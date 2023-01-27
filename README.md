@@ -14,5 +14,5 @@ Based on the given parameters of an instantiated or called template, the compile
 There are two kinds of templates. Function templates and class templates. Class templates can be used for structs, classes and unions.
 
 A template is not a type, but only a pattern, that tells the compiler how to generate a type based on template parameters. 
-That means that for each template, that is used with differ-ent template parameter types in the code, the compiler defines independent types, 
+That means that for each template, that is used with different template parameter types in the code, the compiler defines independent types, 
 that consume independent memory resources.

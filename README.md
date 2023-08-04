@@ -16,3 +16,6 @@ There are two kinds of templates. Function templates and class templates. Class 
 A template is not a type, but only a pattern, that tells the compiler how to generate a type based on template parameters. 
 That means that for each template, that is used with different template parameter types in the code, the compiler defines independent types, 
 that consume independent memory resources.
+
+# Simple Shell using CPP
+This simple shell reads user input, splits it into arguments, and then forks a child process to execute the specified command. The execvp function is used to replace the child process's image with the specified command. The parent process waits for the child process to finish using waitpid.

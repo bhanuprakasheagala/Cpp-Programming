@@ -14,7 +14,7 @@ int main(){
         return 1;
     }
 
-    // Open the output filr for writing
+    // Open the output file for writing
     std::ofstream outputFile(outputFileName);
     if(!outputFile.is_open()){
         std::cerr<<"Failed to open the output file: "<<outputFileName<<std::endl;

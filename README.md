@@ -1,8 +1,11 @@
 # LearningCpp
 
-This Repo is intended to keep my learning progress on the topics of CPP. The topics that are both important and useful in real world applications.
+This Repo is intended to keep my learning progress on the topics of CPP. The main ideal for C++ Programming is to express concepts(ideas, notions, etc.) from a design directly in code.
+#### Represent ideas, relationships among ideas in code
+#### Represent independent ideas independently in code
+#### Keep simple things simple without making complex things impossible.
 
-## Demo Programs Folder
+## DemoPrograms Folder
 ### Template Programming
 Templates are used for generic metaprogramming when a specific pattern or behaviour shall be provided to an arbitrary set of different types. 
 Templates are used by the compiler as code generators to build type safe data containers.
@@ -42,3 +45,10 @@ So, the `buffer` vector is being initialized with the contents of the file, and 
 After this line, the `buffer` vector contains all the characters from the file, effectively representing the file content.
 
 Check Notes section in cpp file to learn more...
+
+### I/O of User-Defined Types
+In addition to the I/O of builtin types and standard `string`s, the `iostream` library allows programmers to define I/O for their own Types.
+Here a `struct` type taken as simple example. Outputtuing is straightforward. The corresponding input operator is more complicated.
+
+Note, The `is>>c` skips whitespace by default, but `is.get(c)` does not, so that this `Entry` - input operator ignores(skips) whitespace
+outside the name string, but not within it.

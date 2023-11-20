@@ -11,9 +11,11 @@ void print_array(T array) {
 
 int main() {
     std::array<int, 3> int_array = {1,2,3};
-    print_array<std::array<int, 3>>(int_array);
+    // print_array<std::array<int, 3>>(int_array); OR
+    print_array(int_array); // Type implied automatically
 
     std::array<float, 3> float_array = {1.1f, 2.2f, 3.3f};
-    print_array<std::array<float, 3>>(float_array);
+    // print_array<std::array<float, 3>>(float_array); OR
+    print_array(float_array); // Type implied automatically
 
 }

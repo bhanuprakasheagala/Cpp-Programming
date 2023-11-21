@@ -1,3 +1,5 @@
+// This is C++20 standard. Usage: g++ -std=c++20 TemplateSpecialization.cpp
+
 #include <array>
 #include <iostream>
 

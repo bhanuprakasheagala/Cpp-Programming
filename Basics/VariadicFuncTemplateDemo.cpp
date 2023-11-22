@@ -31,3 +31,14 @@ int main(){
 
     return 0;
 }
+
+/*
+NOTES:-
+
+Most implementations that incorporate variadic function templates use recursion of some form,
+but it's slightly different from traditional recursion. Traditional recursion involves a function
+calling itself by using the same signature. (It may be overloaded or templated, but the same signature
+is chosen each time.) Variadic recursion involves calling a variadic function template by using differing
+(almost always decreasing) numbers of arguments, and thereby stamping out a different signature every time.
+A "base case" is still required, but the nature of the recursion is different.
+*/

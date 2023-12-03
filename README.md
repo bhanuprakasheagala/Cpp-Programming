@@ -52,3 +52,13 @@ Here a `struct` type taken as simple example. Outputtuing is straightforward. Th
 
 Note, The `is>>c` skips whitespace by default, but `is.get(c)` does not, so that this `Entry` - input operator ignores(skips) whitespace
 outside the name string, but not within it.
+
+## EbpInterpreter
+### Journey to the center of a language interpretation
+
+EbpInterpreter is a full functional interpreter for a scripting language. In this personal project I am focusing on learning the background of a language
+journey from the high level stream of englist characters to the low level or machine understandable string of one's and zero's.
+
+In this Project, I explore the world of Compilers, Interpreters, and how they work underhood by building one from the scratch!
+
+Exciting journey of learning in Progress...

@@ -6,10 +6,10 @@
 
 #include <stdexcept>
 
-class EbpInterpreter{
+class Ebp{
     public:
-        EbpInterpreter(int argc, char* argv[]) : argc(argc), argv(argv){}
-
+        Ebp(int argc, char* argv[]) : argc(argc), argv(argv){}
+        static bool hadError = false;
         void start() {
             try{
                 if(argc > 1){
@@ -43,6 +43,9 @@ class EbpInterpreter{
                 std::string content = buffer.str();
 
                 run(content);
+
+                if(hadError)
+                    exit(65);
             }
             catch(const std::exception& e) {
                 std::cerr << "Error: " << e.what() << std::endl;
@@ -67,6 +70,7 @@ class EbpInterpreter{
                     }
 
                     run(inputline);
+                    hadError = false;
                 }
             }
             catch(const std::exception& e) {
@@ -83,13 +87,20 @@ class EbpInterpreter{
                 std::cout << token << std::endl;
             }
         }
+        static void error(int line, std::string message) {
+            report(line, " ", message);
+        }
+        static void report(int line, std::string where, std::string message) {
+            std::cout << "[line " << line << " ] Error " << where << ": " << message;
+            hadError = true;
+        }
 };
 
 
 
 int main(int argc, char* argv[]) {
-    EbpInterpreter ei(argc, argv);
-    ei.start();
+    Ebp ebp(argc, argv);
+    ebp.start();
 
     return 0;
 }

@@ -1,4 +1,5 @@
-# LearningCpp
+# Exploring C++ Programming
+## Coding concepts and Language constructs
 
 This Repo is intended to keep my learning progress on the topics of CPP. The main ideal for C++ Programming is to express concepts(ideas, notions, etc.) from a design directly in code.
 #### Represent ideas, relationships among ideas in code

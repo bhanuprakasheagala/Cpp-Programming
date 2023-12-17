@@ -54,12 +54,34 @@ Here a `struct` type taken as simple example. Outputtuing is straightforward. Th
 Note, The `is>>c` skips whitespace by default, but `is.get(c)` does not, so that this `Entry` - input operator ignores(skips) whitespace
 outside the name string, but not within it.
 
-## EbpInterpreter
-### Journey to the center of a language interpretation
+### A DeskCalculator Example
+This C++ code implements a simple calculator that can handle basic arithmetic expressions, variable assignments, and predefined constants. Here's a step-by-step explanation of how the code works:
 
-EbpInterpreter is a full functional interpreter for a scripting language. In this personal project I am focusing on learning the background of a language
-journey from the high level stream of englist characters to the low level or machine understandable string of one's and zero's.
+#### Token Definition:
+The code defines an enumeration Kind to represent different types of tokens. Each token has a kind, and for certain tokens like numbers or names, there are additional fields to store relevant information.
+#### Token Struct:
+There is a Token struct that holds information about a particular token, including its kind, string value, and number value.
+#### Error Handling:
+There is a global variable noOfErrors to count the number of errors. The error function increments the error count, prints an error message, and returns a default value (1 in this case).
+#### Symbol Table:
+The code uses a std::map named table to store variable assignments, associating variable names with their values.
+#### Token Stream Class:
+The Token_stream class handles the input stream of tokens. It includes functions to get the next token, retrieve the current token, and set the input source. The destructor ensures proper cleanup.
+#### Token Stream Implementation:
+The implementation of Token_stream includes a get function that extracts the next token from the input stream based on the characters encountered. The switch statement categorizes characters into different token types.
+#### Expression Parsing:
+The code defines three functions for parsing expressions: expr, term, and prim. These functions collectively implement a recursive descent parser.
+expr: Handles addition and subtraction operations.
+term: Deals with multiplication and division operations.
+prim: Represents the primary elements of an expression, such as numbers, variables, and parenthesized expressions.
+calculate Function:
+The calculate function repeatedly gets tokens from the stream and evaluates expressions until the end of the input is reached. It prints the result of each expression.
+#### Main Function:
+The main function sets up the calculator. It checks the command line arguments to determine the input source (either standard input or a string). It initializes the symbol table with constants (pi and e) and calls the calculate function.
 
-In this Project, I explore the world of Compilers, Interpreters, and how they work underhood by building one from the scratch!
+#### Usage:
+If no command line arguments are provided, the calculator reads expressions from standard input.
+If one command line argument is provided, it is treated as a string, and the calculator reads expressions from that string.
+If more than one command line argument is provided, an error is reported.
 
-Exciting journey of learning in Progress...
+The calculator supports basic arithmetic operations, variable assignments, and predefined constants. After evaluating each expression, the result is printed to the standard output. The program returns the number of errors encountered.

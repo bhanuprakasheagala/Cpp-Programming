@@ -1,6 +1,37 @@
 #include <iostream>
 #include <string>
 
+std::string encryptString(const std::string& input, int key) {
+    std::string encryptedString = "";
+
+    // Iterate through each character in the input string
+    for(char ch : input) {
+        // Encrypt alphabetic characters only
+        if(std::isalpha(ch)) {
+            // Determine the shift considering upper and lower case
+            char base = std::isupper(ch) ? 'A' : 'a';
+
+            // Apply Ceasar cipher encryption
+            char encryptedChar = ((ch - base + key) % 26 + 26) % 26 + base;
+
+            // Append the encrypted character to make encrypted string
+            encryptedString += encryptedChar;
+        } 
+        else {
+            // Non-alphabetic characters are unchanged
+            encryptedString += ch;
+        }
+    }
+
+    return encryptedString;
+}
+
+std::string decryptString(const std::string& input, int key) {
+    // Decrypting is essentially encrypting with the negative of the key
+    key = -key;
+    return encryptString(input, key);
+}
+
 int main() {
     int choice, key;
     std::string inputString;
@@ -9,8 +40,7 @@ int main() {
     std::cout << "1. Encrypt a string\n2. Decrypt a string\n";
     std::cout << "Enter your choice: ";
     std::cin >> choice;
-    std::cin.ignore() // Clear the newline characted from buffer
-    std::static_assert((key == 1) || (key == 2))
+    std::cin.ignore(); // Clear the newline characted from buffer
     switch(choice) {
         case 1: {
             std::cout << "Enter the string to be encrypted: ";
@@ -29,7 +59,7 @@ int main() {
             std::cout << "Enter the string to be decrypted: ";
             std::getline(std::cin, inputString);
 
-            std::cout << "Enter the negative value of encryption key to decrypt: ";
+            std::cout << "Enter the decryption key: ";
             std::cin >> key;
 
             std::string decryptedString = decryptString(inputString, key);
@@ -39,7 +69,7 @@ int main() {
         }
 
         default :
-            std::cout << "Invalid "
+            std::cout << "Invalid option.";
     }
 
     return 0;

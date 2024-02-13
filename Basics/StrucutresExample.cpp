@@ -6,7 +6,7 @@ In both cases using the same identifier: the name of the structure
 */
 #include <iostream>
 #include <string>
-#include <sstream>
+//#include <sstream>
 using namespace std;
 
 struct movies_t {
@@ -18,7 +18,7 @@ void printmovie (movies_t movie);
 
 int main ()
 {
-  string mystr;
+  //string mystr;
 
   mine.title = "2001 A Space Odyssey";
   mine.year = 1968;

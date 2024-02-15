@@ -77,5 +77,17 @@ int main() {
     Array<double, 5> doubleArr;
     doubleArr = floatArr1; // Same size but not type : Valid as Assignment operator overload
 
+    floatArr2 = doubleArr; // Works
+
+    Array<int, 5> intArray;
+    intArray = doubleArr; // Works
+
+    intArray = floatArr1; // Works
+    floatArr2 = intArray; // Works
+    doubleArr = intArray; // Works
+
+    //Array<std::string, 5> strArr;
+    // doubleArr = strArr;   -> Not valid: Non-convertible types
+
     return 0;
 }

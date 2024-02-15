@@ -26,7 +26,7 @@ int main() {
 
     /*
     Array<double, 5> doubleArr;
-    floatArr2 = doubleArr; // Same size but not type: Error
+    doubleArr = floatArr1; // Same size but not type: Error
     */
 
     return 0;

@@ -27,6 +27,11 @@ class Array {
     private:
         T elem[N];
 };
+/*
+The assignment operator Array<T, N>& operator = (const Array<T2, N>& arr) accepts arrays
+that could vary in the underlying type but could not vary in length.
+*/
+
 
 /*
 Alternatively above class and functions can be implemented as follows:
@@ -70,8 +75,7 @@ int main() {
     floatArr2 = floatArr1; // Same type and size: Valid
 
     Array<double, 5> doubleArr;
-    floatArr2 = doubleArr; // Same size but not type: Error
-    
+    doubleArr = floatArr1; // Same size but not type : Valid as Assignment operator overload
 
     return 0;
 }

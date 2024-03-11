@@ -57,3 +57,11 @@ int main()
     
     return 0;
 }
+
+/*
+The code demonstrates how to create a generic function wrapper using C++ templates and tuples.
+It enables the invocation of any callable object (such as functions, lambdas, functors) with a
+flexible number of arguments.
+The FunctionWrapper class encapsulates the callable object and its arguments,
+allowing for a convenient and flexible way to invoke functions with varying signatures.
+*/

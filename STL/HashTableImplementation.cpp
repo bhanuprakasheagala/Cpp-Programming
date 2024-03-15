@@ -101,7 +101,16 @@ void ht_insert(HashTable* table, char* key, char* value) {
             return;
         }
         else {
-            
+            // Scenario1: Key Value pair already exists. Update the item value to the new one.
+            if(strcmp(current_item->key, key) == 0) {
+                strcpy(table->items[index]->value, value);
+                return;
+            }
+            else {
+                // Scenario2: Handle the collision.
+                handle_collision(table, item);
+                return;
+            }
         }
         // Insert directly
         table->items[index] = item;

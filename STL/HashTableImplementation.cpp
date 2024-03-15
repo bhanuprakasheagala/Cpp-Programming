@@ -70,6 +70,44 @@ void free_table(HashTable* table) {
     free(table);
 }
 
+// Print table
+void print_table(HashTable* table) {
+    printf("\nHashTable\n-----------------------\n");
+    for(int i=0; i<table->size; ++i) {
+        if(table->items[i]) {
+            printf("Index:%d, Key:%s, Value:%s\n", i, table->items[i]->key, table->items[i]->value);
+        }
+    }
+
+    printf("----------------------\n\n");
+}
+
+// Inserting into the HashTable
+void ht_insert(HashTable* table, char* key, char* value) {
+    // Creates the item
+    Ht_item* item = create_item(key, value);
+
+    // Computes the index
+    int index = hash_function(key);
+
+    Ht_item* current_item = table->items[index];
+
+    if(current_item == NULL) {
+        // Key does not exist
+        if(table->count == table->size) {
+            // HashTable is full
+            printf("Insert Error: HashTable is full\n");
+            free_item(item);
+            return;
+        }
+        else {
+            
+        }
+        // Insert directly
+        table->items[index] = item;
+        table->count++;
+    }
+}
 
 int main()
 {

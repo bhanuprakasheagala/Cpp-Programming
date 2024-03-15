@@ -100,7 +100,11 @@ void ht_insert(HashTable* table, char* key, char* value) {
             free_item(item);
             return;
         }
-        else {
+        // Insert directly
+        table->items[index] = item;
+        table->count++;
+    }
+    else {
             // Scenario1: Key Value pair already exists. Update the item value to the new one.
             if(strcmp(current_item->key, key) == 0) {
                 strcpy(table->items[index]->value, value);
@@ -112,10 +116,6 @@ void ht_insert(HashTable* table, char* key, char* value) {
                 return;
             }
         }
-        // Insert directly
-        table->items[index] = item;
-        table->count++;
-    }
 }
 
 int main()

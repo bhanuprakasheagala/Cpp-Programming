@@ -1,11 +1,11 @@
 #include <iostream>
 
 // Choosing a hash function
-constexpr CAPACITY 500; // Size of the HashTable
+#define CAPACITY 500 // Size of the HashTable
 unsigned long hash_function(char *str) {
     unsigned long i = 0;
 
-    for(int i=0; str[j]; j++) {
+    for(int j=0; str[j]; j++) {
         i += str[j];
     }
 
@@ -28,7 +28,7 @@ typedef struct HashTable {
 
 // Create items by allocating memory for a key and value, and return a pointer to the item
 Ht_item* create_item(char* key, char* value) {
-    Ht_item* item = (Ht_item)malloc(sizeof(Ht_item));
+    Ht_item* item = (Ht_item*)malloc(sizeof(Ht_item));
     item->key = (char*)malloc(strlen(key)+1);
     item->value = (char*)malloc(strlen(value)+1);
     strcpy(item->key, key);
@@ -112,14 +112,56 @@ void ht_insert(HashTable* table, char* key, char* value) {
             }
             else {
                 // Scenario2: Handle the collision.
-                handle_collision(table, item);
-                return;
+                //handle_collision(table, item);
+                //return;
             }
         }
 }
 
+// Searching for an item in the HashTable
+char* ht_search(HashTable* table, char* key) {
+    // Searchs for the key in the HashTable. Returns NULL if it doesn't exist.
+    int index = hash_function(key);
+    Ht_item* item = table->items[index];
+
+    // Provide only non-null values
+    if(item != NULL) {
+        if(strcmp(item->key, key) == 0) {
+            return item->value;
+        }
+    }
+
+    return NULL;
+}
+
+// Display the item that matches the search key
+void print_search(HashTable* table, char* key) {
+    char* val;
+    if((val = ht_search(table, key)) == NULL) {
+        printf("Key: %s does not exist\n", key);
+        return;
+    }
+    else {
+        printf("Key: %s, Value: %s\n", key, val);
+    }
+}
+
 int main()
 {
-    
+    HashTable* ht = create_table(CAPACITY);
+    ht_insert(ht, (char*)"1", (char*)"First address");
+    ht_insert(ht, (char*)"2", (char*)"Second address");
+    ht_insert(ht, (char*)"Hel", (char*)"Third address");
+    ht_insert(ht, (char*)"lo", (char*)"Fourth address");
+
+    print_search(ht, (char*)"1");
+    print_search(ht, (char*)"2");
+    print_search(ht, (char*)"4");
+
+    print_table(ht);
+    free_table(ht);
+    print_table(ht);
+
+
     return 0;
 }

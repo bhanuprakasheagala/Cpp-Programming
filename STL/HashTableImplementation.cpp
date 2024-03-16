@@ -112,8 +112,8 @@ void ht_insert(HashTable* table, char* key, char* value) {
             }
             else {
                 // Scenario2: Handle the collision.
-                //handle_collision(table, item);
-                //return;
+                handle_collision(table, item);
+                return;
             }
         }
 }

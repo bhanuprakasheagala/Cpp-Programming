@@ -99,14 +99,16 @@ typedef struct LinkedList{
     struct LinkedList* next;
 } LinkedList;
 
+// Allocates memory for a LinkedList pointer
 LinkedList* allocate_list() {
-    // Allocates memory for a LinkedList pointer
+    
     LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
     return list;
 }
 
+// Inserts the item onto the LinkedList
 LinkedList* linkedlist_insert(LinkedList* list, Ht_item* item) {
-    // Inserts the item onto the LinkedList
+    
     if(!list) {
         LinkedList* head = allocate_list();
         head->item = item;

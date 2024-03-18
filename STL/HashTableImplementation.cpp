@@ -11,7 +11,6 @@ unsigned long hash_function(char *str) {
 
     return i%CAPACITY;
 }
-
 // Defining HashTable Data structure
 typedef struct Ht_item {
     char* key;
@@ -80,6 +79,62 @@ void print_table(HashTable* table) {
     }
 
     printf("----------------------\n\n");
+}
+
+/* Handling Collisions using Separate Chaining
+which aims to create independent chains for all items that have the same index.
+
+Whenever there is a collision, additional items that collide on the same index are added to an
+overflow bucket list. Thus, we will not have to delete any existing records on the hash table.
+
+Due to linked lists having O(n) time complexity for insertion, searching, and deletion, in case of
+a collision, you will have a worst-case access time of O(n) as well.
+The advantage of this method is that it is a good choice if your hash table has a low capacity.
+*/
+
+// Implementing the overflow bucket list
+
+typedef struct LinkedList{
+    Ht_item* item;
+    struct LinkedList* next;
+} LinkedList;
+
+LinkedList* allocate_list() {
+    // Allocates memory for a LinkedList pointer
+    LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
+    return list;
+}
+
+LinkedList* linkedlist_insert(LinkedList* list, Ht_item* item) {
+    // Inserts the item onto the LinkedList
+    if(!list) {
+        LinkedList* head = allocate_list();
+        head->item = item;
+        head->next = NULL;
+        list = head;
+
+        return list;
+    }
+    else if(list->next == NULL) {
+        LinkedList* node = allocate_list();
+        node->item = item;
+        node->next = NULL;
+        list->next = node;
+
+        return list;
+    }
+    LinkedList* temp = list;
+    while(temp->next->next) {
+        temp = temp->next;
+    }
+
+    LinkedList* node = allocate_list();
+    node->item = item;
+    node->next = NULL;
+    temp->next = node;
+
+    return list;
+
 }
 
 // Inserting into the HashTable

@@ -21,6 +21,7 @@ typedef struct Ht_item {
 typedef struct HashTable {
     // Contains an array of pointers to items
     Ht_item** items;
+    LinkedList** overflow_buckets;
     int size;
     int count;
 } HashTable;
@@ -46,6 +47,7 @@ HashTable* create_table(int size) {
     for(int i=0; i<table->size; ++i) {
         table->items[i] = NULL;
     }
+    table->overflow_buckets = create_overflow_buckets(table);
 
     return table;
 }
@@ -65,6 +67,7 @@ void free_table(HashTable* table) {
             free_item(item);
         }
     }
+    free_overflow_buckets(table);
     free(table->items);
     free(table);
 }
@@ -157,6 +160,39 @@ Ht_item* linkedlist_remove(LinkedList* list) {
     free(temp);
 
     return it;
+}
+
+void free_linkedlist(LinkedList* list) {
+    LinkedList* temp = list;
+
+    while(list) {
+        temp = list;
+        list = list->next;
+        free(temp->item->key);
+        free(temp->item->value);
+        free(temp->item);
+        free(temp);
+    }
+}
+
+// Create the overflow buckets; An array of linked lists
+LinkedList** create_overflow_buckets(HashTable* table) {
+    LinkedList** buckets = (LinkedList**)calloc(table->size, sizeof(LinkedList*));
+
+    for(int i=0; i<table->size; i++) {
+        buckets[i] = NULL;
+    }
+
+    return buckets;
+}
+
+// Free all the overflow bucket lists
+void free_overflow_buckets(HashTable** table) {
+    LinkedList** buckets = table->overflow_buckets;
+    for(int i=0; i<table->size; ++i) {
+        free_linkedlist(buckets[i]);
+    }
+    free(buckets);
 }
 
 // Inserting into the HashTable

@@ -139,6 +139,26 @@ LinkedList* linkedlist_insert(LinkedList* list, Ht_item* item) {
 
 }
 
+// Removes the head of the LinkedList, returns the item of the popped element.
+Ht_item* linkedlist_remove(LinkedList* list) {
+    if(!list || !list->next) {
+        return NULL;
+    }
+    LinkedList* node = list->next;
+    LinkedList* temp = list;
+    temp->next = NULL;
+    list = node;
+
+    Ht_item* it = NULL;
+    memcpy(temp->item, it, sizeof(Ht_item));
+    free(temp->item->key);
+    free(temp->item->value);
+    free(temp->item);
+    free(temp);
+
+    return it;
+}
+
 // Inserting into the HashTable
 void ht_insert(HashTable* table, char* key, char* value) {
     // Creates the item

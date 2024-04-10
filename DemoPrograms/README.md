@@ -1,12 +1,3 @@
-# Exploring C++ Programming
-## Coding concepts and Language constructs : C++11, C++14, C++17, C++20
-
-The main ideal for C++ Programming is to express concepts(ideas, notions, etc.) from a design directly in code.
-#### Represent ideas and relationships among ideas, in code
-#### Represent independent ideas independently in code
-#### Keep simple things simple without making complex things impossible
-#### Focus more on techniques than language syntax
-
 ## DemoPrograms Folder
 
 ### Simple Shell using CPP

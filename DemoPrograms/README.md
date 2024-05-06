@@ -63,3 +63,54 @@ If one command line argument is provided, it is treated as a string, and the cal
 If more than one command line argument is provided, an error is reported.
 
 The calculator supports basic arithmetic operations, variable assignments, and predefined constants. After evaluating each expression, the result is printed to the standard output. The program returns the number of errors encountered.
+
+### Simple C++ Vector Implementation
+
+This is a simple implementation of a dynamic array-like container, similar to `std::vector`, in C++. This Vector class provides basic functionality such as adding elements, removing elements, resizing, accessing elements by index, and more.
+
+### Features
+
+- **Dynamic Sizing**: The Vector automatically adjusts its capacity as elements are added or removed.
+- **Efficient Memory Management**: Memory is allocated efficiently to minimize overhead.
+- **Iterator Support**: It provides iterators for traversing the elements of the Vector.
+- **Custom Display Function**: Includes a custom display function (`myDisplay()`) for printing the elements of the Vector.
+
+### Usage
+
+To use the Vector class, simply include the provided header file and instantiate a Vector object with the desired data type. Then, you can utilize its methods to manipulate and access elements as needed.
+
+### Example
+
+```cpp
+#include <iostream>
+#include "Vector.h" // Include the Vector header file
+
+int main() {
+    // Create a Vector of integers
+    Vector<int> myVector;
+
+    // Add elements to the Vector
+    myVector.push_back(10);
+    myVector.push_back(20);
+    myVector.push_back(30);
+
+    // Display the elements of the Vector
+    myVector.myDisplay();
+
+    // Access the first and last elements
+    std::cout << "First element: " << *(myVector.begin()) << '\n';
+    std::cout << "Last element: " << *(myVector.end() - 1) << '\n';
+
+    // Remove the last element
+    myVector.pop_back();
+
+    // Check if the Vector is empty
+    if (myVector.empty()) {
+        std::cout << "Vector is empty\n";
+    } else {
+        std::cout << "Vector is not empty\n";
+    }
+
+    return 0;
+}
+```

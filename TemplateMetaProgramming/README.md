@@ -57,3 +57,21 @@ int max (int a, int b){
   return b<a?a:b;
 }
 ```
+
+The process of replacing template parameters by concrete types is called _instantiation_. It results in an _instance_ of a template.
+Note that the mere use of a function template can trigger such an instantiation process. There is no need for the programmer to request the instantiation separately.
+<br/>Similarly, the other calls of max() instantiate the max template for double and std::string as if they were declared and implemented individually:
+```
+double max (double, double);
+std::string max (std::string, std::string);
+```
+Note also that void is a valid template argument provided the resulting code is valid. For example:
+```
+template<typename T>
+T foo(T*)
+{
+}
+void* vp = nullptr;
+foo(vp);            // OK: deduces void foo(void*)
+```
+

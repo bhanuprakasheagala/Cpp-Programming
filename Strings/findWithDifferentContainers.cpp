@@ -1,3 +1,15 @@
+/*
+Consider the use of std::find() versus member function find() when using std::string, std::vector and std::set; 
+this function finds the first occurence of its parameter in the specified container. The std::set container is similar 
+to std::vector except that it maintains its elements in sorted order. The differences are:
+
+For std::string, member function find() returns an index having performed a linear search (checking each character element in turn).
+For std::vector, algorithm std::find() returns an iterator, again performing a linear search.
+For std::set, member function find() returns an iterator having performed a binary search (repeatedly dividing the range of values in half).
+This is quicker than using std::find().
+
+*/
+
 #include <iostream>
 #include <algorithm>
 #include <string>

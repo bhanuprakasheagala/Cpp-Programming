@@ -6,18 +6,21 @@ int main(){
     
     // Create a new object of fstream class, which is a base class of both ifstream and ofstream
     std::fstream new_file;
+    std::string filename;
+    std::cout << "Enter the file name: ";
+    std::cin >> filename;
     // open() creates a new file by setting mode to `out` which allows us to write in our file
-    new_file.open("file2", std::ios::out);
+    new_file.open(filename, std::ios::out);
 
     if(!new_file){
         std::cout<<"File creation failed, can't open!";
     }
     else{
-        std::cout<<"File named file1 created successfully!"<<std::endl;
-        new_file<<"Writing this data into file2"<<std::endl;  //Writing to newly created file2
-        new_file.close(); //file2 closed
+        std::cout<<"File named " << filename << " created successfully!\n";
+        new_file<<"Writing this data into "<< filename << '\n';  //Writing to newly created file
+        new_file.close(); //file closed
     }
-    new_file.open("file2", std::ios::in); //Opening file2 in read mode
+    new_file.open(filename, std::ios::in); //Opening file2 in read mode
     if(!new_file){
         std::cout<<"No such file";
     }

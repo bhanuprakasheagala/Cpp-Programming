@@ -59,7 +59,7 @@ C++ supports various programming paradigms, each suited to different types of pr
 - **Multicore Processors**: Utilizing multicore processors in embedded systems requires efficient concurrency management.
 - **Example**: Using threads to handle different tasks, like reading sensor data while simultaneously updating a display.
 
-### Summary of Most Used Paradigms in Embedded Systems
+### Most Used Paradigms in Embedded Systems
 
 1. **Procedural Programming**: For its simplicity and efficiency, making it ideal for low-level hardware interaction.
 2. **Object-Oriented Programming**: For managing complexity and providing modular and reusable code, crucial in larger and more complex embedded systems.

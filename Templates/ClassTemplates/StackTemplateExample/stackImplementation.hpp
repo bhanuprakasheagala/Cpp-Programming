@@ -23,13 +23,13 @@ void Stack<T>::push(T const& elem) {
 template <typename T>
 void Stack<T>::pop() {
     assert(!elems.empty());
-    T elem = elems.back();
+    //T elem = elems.back();
     elems.pop_back();              // remove last element
-    return elem;
+    //return elem;
 }
 
 template <typename T>
 T const& Stack<T>::top() const {
     assert(!elems.empty());
-    elems.back();
+    return elems.back();
 }

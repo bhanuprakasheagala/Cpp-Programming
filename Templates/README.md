@@ -1,4 +1,4 @@
-# Template Meta Programming
+# Templates : Generic and Reusable Code
 
 ## Introduction
 Templates are used for generic metaprogramming when a specific pattern or behaviour shall be provided to an arbitrary set of different types. 
@@ -75,3 +75,133 @@ void* vp = nullptr;
 foo(vp);            // OK: deduces void foo(void*)
 ```
 
+## **Partial Template Specialization**
+
+Partial template specialization enables you to define different implementations of a template for some but not all types of template parameters. This allows you to handle variations in types more flexibly than full specialization, which applies to specific types only.
+
+### **Why Use Partial Template Specialization?**
+
+Partial specialization is useful when you want to provide specialized behavior for specific patterns of template parameters while still keeping a general template for other cases. This is particularly helpful in generic programming where you might need different implementations based on the types or the number of template parameters.
+
+### **Syntax of Partial Template Specialization**
+
+The syntax for partial template specialization involves providing a specialized version of a template that matches a subset of possible template arguments. Here’s how you generally write it:
+
+1. **Primary Template:**
+
+   This is the general template that applies to most types.
+
+   ```cpp
+   template <typename T, typename U>
+   class Pair
+   {
+   public:
+       Pair(T first, U second) : first(first), second(second) {}
+       T getFirst() const { return first; }
+       U getSecond() const { return second; }
+
+   private:
+       T first;
+       U second;
+   };
+   ```
+
+2. **Partial Specialization:**
+
+   This is a specialized version of the template that applies to a specific pattern of the template parameters.
+
+   ```cpp
+   template <typename T>
+   class Pair<T, T>
+   {
+   public:
+       Pair(T first, T second) : first(first), second(second) {}
+       T getFirst() const { return first; }
+       T getSecond() const { return second; }
+       T getSum() const { return first + second; }
+
+   private:
+       T first;
+       T second;
+   };
+   ```
+
+   Here, the partial specialization is for the case where both template parameters are the same type (`T`).
+
+### **Detailed Example:**
+
+Consider a class `Pair` that holds a pair of values:
+
+#### **Primary Template:**
+
+```cpp
+template <typename T, typename U>
+class Pair
+{
+public:
+    Pair(T first, U second) : first(first), second(second) {}
+    T getFirst() const { return first; }
+    U getSecond() const { return second; }
+
+private:
+    T first;
+    U second;
+};
+```
+
+This general `Pair` class can hold any two types, `T` and `U`. It has methods to access these values.
+
+#### **Partial Specialization:**
+
+Let's say we want a specific behavior when `T` and `U` are the same type. For example, we might want to add the values together if they are of the same type. We can use partial specialization to handle this case:
+
+```cpp
+template <typename T>
+class Pair<T, T>
+{
+public:
+    Pair(T first, T second) : first(first), second(second) {}
+    T getFirst() const { return first; }
+    T getSecond() const { return second; }
+    T getSum() const { return first + second; }
+
+private:
+    T first;
+    T second;
+};
+```
+
+Here’s how this specialization works:
+
+- **General Template:** `Pair<T, U>` is used for pairs where `T` and `U` can be different types.
+- **Specialized Template:** `Pair<T, T>` is used when both types are the same. It provides an additional method, `getSum()`, which computes the sum of the two values.
+
+### **Usage Example:**
+
+```cpp
+#include <iostream>
+
+int main()
+{
+    // Using the general template
+    Pair<int, std::string> pair1(1, "Hello");
+    std::cout << "First: " << pair1.getFirst() << ", Second: " << pair1.getSecond() << std::endl;
+
+    // Using the partial specialization
+    Pair<int> pair2(3, 4);
+    std::cout << "First: " << pair2.getFirst() << ", Second: " << pair2.getSecond() << std::endl;
+    std::cout << "Sum: " << pair2.getSum() << std::endl;
+
+    return 0;
+}
+```
+
+In this example:
+- `pair1` uses the general `Pair<int, std::string>` template.
+- `pair2` uses the specialized `Pair<int, int>` template and can access the `getSum()` method.
+
+### **Rules for Partial Specialization:**
+
+1. **Substitution:** The partial specialization is selected if the provided template arguments match the specialized pattern. If they don’t, the primary template is used.
+2. **Less Specific Specializations:** You can have multiple partial specializations, each targeting different patterns of template arguments.
+3. **Restrictions:** You cannot partially specialize function templates, but you can use `std::enable_if` or SFINAE to achieve similar results.

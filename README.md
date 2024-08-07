@@ -69,6 +69,11 @@ C++ supports various programming paradigms, each suited to different types of pr
 Each of these paradigms contributes to addressing the unique challenges of embedded systems development, from resource constraints and real-time requirements to code maintainability and scalability.
 
 ### Few Resources from Internet
-C++ Interesting concepts : https://vishalchovatiya.com/pages/start-here/
-May be One or two Articles from : https://nimrod.blog/
+C++ Interesting concepts        : https://vishalchovatiya.com/pages/start-here/ <br/>
+May be One or two Articles from : https://nimrod.blog/ <br/>
+May be not specific to C++ but  : https://devblogs.microsoft.com/oldnewthing/ <br/>
+Something I need to delve into  : https://cpppatterns.com/ <br/>
+C++ Tips from                   : https://abseil.io/tips/ <br/>
+
+
 

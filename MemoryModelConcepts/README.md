@@ -74,37 +74,6 @@ void destroy(pointer p) {
     p->~value_type();
 }
 ```
-
-### Example Usage
-
-Here is an example of how `std::allocator` is used in a standard container like `std::vector`:
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <memory>
-
-int main() {
-    // Create a vector of integers using the default allocator
-    std::vector<int, std::allocator<int>> vec;
-
-    // Add some elements to the vector
-    vec.push_back(1);
-    vec.push_back(2);
-    vec.push_back(3);
-
-    // Print the elements of the vector
-    for (int i : vec) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-
-    return 0;
-}
-```
-
-In this example, the `std::vector` container uses `std::allocator` by default to manage its memory allocation and deallocation.
-
 ### How the Default Allocator Works in C++
 
 The default allocator in C++, `std::allocator`, works by providing a standardized interface for memory allocation and deallocation, object construction, and destruction. Here's a detailed explanation of how it functions under the hood:
@@ -196,34 +165,6 @@ The `destroy` function calls the destructor of the object explicitly. Here is a 
 void destroy(T* p) {
     // Destroy the object of type T at the memory location p
     p->~T();
-}
-```
-
-### Example Usage in a Container
-
-To illustrate how the default allocator works in practice, let's look at a simple example using a `std::vector`:
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <memory>
-
-int main() {
-    // Create a vector of integers using the default allocator
-    std::vector<int, std::allocator<int>> vec;
-
-    // Add some elements to the vector
-    vec.push_back(1);
-    vec.push_back(2);
-    vec.push_back(3);
-
-    // Print the elements of the vector
-    for (int i : vec) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-
-    return 0;
 }
 ```
 

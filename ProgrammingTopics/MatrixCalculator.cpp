@@ -80,6 +80,46 @@ class Matrix {
             }
             return result;
         }
+        
+        // Function to compute the determinant of an n x n Matrix
+        long determinant() const {
+            static_assert(Rows == Cols, "Determinant is only defined for square Matrices.\n");
+            
+            // Base case : 1 x 1 Matrix
+            if(Rows == 1) {
+                return data[0][0]; // The determinant is the element itself
+            }
+            
+            // Base Case : 2 x 2 Matrix
+            if(Rows == 2) {
+                return data[0][0] * data[1][1] - data[0][1] * data[1][0]; // ad - bc
+            }
+            
+            long det = 0;
+            
+            // Loop over each column of the first row(for cofactor expansion)
+            for(size_t j = 0; j < Cols; ++j) {
+                // Create a submatrix M_ij by excluding the first row and j-th column
+                Matrix<Rows - 1, Cols - 1> submatrix;
+                
+                // Fill the submatrix
+                for(size_t sub_i = 0; sub_i < Rows - 1; ++sub_i) {
+                    for(size_t sub_j = 0; sub_j < Cols - 1; ++sub_j) {
+                        // Fill in the submatrix elements by skipping the first row and the current column (j)
+                        submatrix.set(sub_i, sub_j, this->get(sub_i + 1, (sub_j >= j ? sub_j + 1 : sub_j)));
+
+                    }
+                }
+                
+                // Add the contribution of this column's cofactor to the determinant
+                // The sign alternates based on the column Index
+                // data[0][j] is the element  from the first row and j-th column
+                
+                det += (j%2 == 0 ? 1 : -1) * data[0][j] * submatrix.determinant();
+            }
+            
+            return det;
+        }
 };
 
 int main() {
@@ -131,5 +171,17 @@ int main() {
     std::cout << "Matrix Product (Matrix 1 * Matrix 3):\n";
     matProduct.print();
     
+    // Determinant for square Matrices
+    Matrix<2, 2> mat4;
+    mat4.set(0, 0, 4);
+    mat4.set(0, 1, 3);
+    mat4.set(1, 0, 2);
+    mat4.set(1, 1, 1);
+    
+    std::cout << "Matrix 4:\n";
+    mat4.print();
+    
+    std::cout << "Determinant of Matrix:\n" << mat4.determinant() << '\n';
+
     return 0;
 }

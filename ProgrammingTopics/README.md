@@ -155,6 +155,199 @@ The program tracks memory allocations and deallocations, providing insights into
 
 ---
 
+## Matrix Class Template
+
+Here's an updated README that covers template metaprogramming concepts and other programming details in more depth:
+
+---
+
+# Matrix Class Template
+
+This repository contains a C++ implementation of a matrix class template that supports various operations such as addition, multiplication, transposition, and determinant calculation. The class is designed using modern C++ features, including templates and exception handling.
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [File Structure](#file-structure)
+3. [Matrix Class Template Overview](#matrix-class-template-overview)
+4. [Functionality](#functionality)
+   - [Constructor](#constructor)
+   - [Set and Get Elements](#set-and-get-elements)
+   - [Print Matrix](#print-matrix)
+   - [Addition](#addition)
+   - [Multiplication](#multiplication)
+   - [Transpose](#transpose)
+   - [Determinant](#determinant)
+5. [Template Metaprogramming Concepts](#template-metaprogramming-concepts)
+6. [Exception Handling](#exception-handling)
+7. [Code Flow](#code-flow)
+8. [How to Use](#how-to-use)
+
+## Introduction
+
+The Matrix class template allows users to create matrices of arbitrary dimensions (rows and columns) and perform various mathematical operations. The design leverages C++ templates to ensure type safety and performance.
+
+## File Structure
+
+```
+/matrix
+│
+├── matrix.hpp    // Header file containing the Matrix class template declaration
+├── matrix.cpp     // Implementation file for the Matrix class template methods
+└── main.cpp       // Main program to demonstrate the Matrix class functionality
+```
+
+## Matrix Class Template Overview
+
+The `Matrix` class is defined as a template:
+
+```cpp
+template <size_t Rows, size_t Cols>
+class Matrix {
+    // Class members and methods...
+};
+```
+
+This allows for compile-time determination of the matrix dimensions, leading to optimized memory usage and performance.
+
+## Functionality
+
+### Constructor
+
+The constructor initializes all matrix elements to zero using a loop:
+
+```cpp
+Matrix() {
+    for(auto& row : data) {
+        row.fill(0); // Initialize all elements to 0
+    }
+}
+```
+
+### Set and Get Elements
+
+The `set` and `get` methods allow manipulation of individual matrix elements. They include bounds checking to prevent out-of-range access:
+
+```cpp
+void set(size_t row, size_t col, int value);
+int get(size_t row, size_t col) const;
+```
+
+### Print Matrix
+
+The `print` method outputs the matrix to the console in a formatted manner:
+
+```cpp
+void print() const;
+```
+
+### Addition
+
+The `add` method computes the element-wise sum of two matrices of the same dimensions:
+
+```cpp
+Matrix<Rows, Cols> add(const Matrix<Rows, Cols>& other) const;
+```
+
+### Multiplication
+
+The `multiply` method performs matrix multiplication, which requires proper dimension matching:
+
+```cpp
+template <size_t OtherCols>
+Matrix<Rows, OtherCols> multiply(const Matrix<Cols, OtherCols>& other) const;
+```
+
+### Transpose
+
+The `transpose` method creates a new matrix by flipping the rows and columns:
+
+```cpp
+Matrix<Cols, Rows> transpose() const;
+```
+
+### Determinant
+
+The `determinant` function calculates the determinant of square matrices. It includes specializations for 1x1 and 2x2 matrices, while a general case handles larger matrices using cofactor expansion:
+
+```cpp
+long determinant() const; // General declaration
+template<> long Matrix<1, 1>::determinant() const; // Specialization for 1x1
+template<> long Matrix<2, 2>::determinant() const; // Specialization for 2x2
+```
+
+## Template Metaprogramming Concepts
+
+### Compile-Time Size Parameters
+
+The `Matrix` class uses template parameters `Rows` and `Cols` to specify matrix dimensions at compile time. This allows the compiler to allocate the appropriate amount of memory and perform optimizations.
+
+### Specialization
+
+Function template specialization enables us to define different behaviors for specific cases of a template:
+
+```cpp
+template<>
+long Matrix<1, 1>::determinant() const {
+    return data[0][0];
+}
+```
+
+This specialization avoids unnecessary calculations for 1x1 matrices, making the code more efficient.
+
+### Static Assertions
+
+Static assertions ensure that certain conditions are met at compile time:
+
+```cpp
+static_assert(Rows == Cols, "Determinant is only defined for square Matrices.\n");
+```
+
+This prevents misuse of the determinant function with non-square matrices and provides a clear error message.
+
+## Exception Handling
+
+The code utilizes `std::out_of_range` exceptions to handle errors gracefully when accessing elements outside the valid range. This improves the robustness of the class:
+
+```cpp
+if(row >= Rows || col >= Cols) {
+    throw std::out_of_range("Index out of range\n");
+}
+```
+
+## Code Flow
+
+The `main` function demonstrates the usage of the `Matrix` class by creating instances, performing operations, and printing results. This serves as a simple test suite to verify the class's functionality.
+
+## How to Use
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd matrix
+   ```
+
+3. Compile the code:
+
+   ```bash
+   g++ main.cpp matrix.cpp -o matrix_program
+   ```
+
+4. Run the program:
+
+   ```bash
+   ./matrix_program
+   ```
+
+
+---
+
 Feel free to explore the programs, run them, and use them as examples to enhance your understanding of C++ programming. If you have any questions or suggestions, please open an issue or submit a pull request. Happy coding! 🎉
 
 ---

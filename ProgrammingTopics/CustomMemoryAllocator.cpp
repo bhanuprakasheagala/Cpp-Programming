@@ -3,8 +3,7 @@
 
 class MemoryAllocator {
     private:
-        // Size of the Memory Pool (For simplicity, we'll allocate a fixed size)
-        std::size_t poolSize;
+        std::size_t poolSize; // Size of the Memory Pool (For simplicity, we'll allocate a fixed size)
         void* memoryPool; // Pointer to the start of the memory pool
         void* freeList;   // Pointer to the free list
 

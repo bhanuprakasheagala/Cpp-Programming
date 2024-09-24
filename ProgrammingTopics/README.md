@@ -11,6 +11,7 @@ Welcome to the **Programming Concepts** repository! This repository includes var
 5. [🧮 A DeskCalculator Example](#a-deskcalculator-example)
 6. [📊 Simple C++ Vector Implementation](#simple-c-vector-implementation)
 7. [🛠️ Custom Memory Tracker and Viewer](#custom-memory-tracker-and-viewer)
+8. [🛠️ Custom Memory Allocator](#custom-memory-allocator)
 
 ---
 
@@ -152,6 +153,135 @@ The program tracks memory allocations and deallocations, providing insights into
 
 - **Memory Management Tracking**: Provides insights into memory allocation and deallocation.
 - **Raw Memory Inspection**: Use `showMemory` to inspect and analyze memory buffer contents.
+
+-------
+
+## Custom Memory Allocator
+
+This C++ program is a simple custom memory allocator using a fixed-size memory pool. Below, we'll go through how the code works step-by-step and explain the key concepts, such as memory pools, free lists, and casting techniques like `reinterpret_cast`.
+
+### Overview
+
+Memory management in C++ is typically handled by `new` and `delete`. However, for performance-critical applications, especially those that allocate and deallocate memory frequently (e.g., embedded systems), creating a custom memory allocator can help minimize overhead and fragmentation.
+
+#### Design Goals
+1. **Memory Pool**: We pre-allocate a large chunk of memory upfront, referred to as the "memory pool."
+2. **Fixed-Size Blocks**: The memory pool is divided into small, fixed-size blocks, each 32 bytes in this case.
+3. **Free List**: A linked list (known as the "free list") keeps track of free blocks that are available for allocation.
+4. **Efficient Allocation and Deallocation**: Blocks are quickly allocated by popping them off the free list, and deallocated by adding them back to the free list.
+
+### Code Walkthrough
+
+#### Constructor: `MemoryAllocator(std::size_t size)`
+The constructor is responsible for creating the memory pool and initializing the free list.
+
+#### Memory Pool Allocation
+```cpp
+memoryPool = ::operator new(poolSize);
+```
+Here, the `::operator new` allocates raw memory (in this case, a chunk of size `poolSize`). This is different from the usual `new` operator, as it doesn’t invoke constructors—it's essentially allocating a block of bytes, without initializing any objects.
+
+- **Why use `::operator new`?**  
+  This low-level memory allocation is used to provide raw memory without initializing objects. We just need the raw memory for the memory pool, not to create actual objects, so we avoid unnecessary constructor overhead.
+
+#### Free List Initialization
+Once the memory pool is allocated, it’s divided into blocks and linked together to form a free list.
+
+```cpp
+void initializeFreeList() {
+    char* currentBlock = static_cast<char*>(memoryPool);
+    for (std::size_t i = 0; i < (poolSize / blocksize) - 1; ++i) {
+        *reinterpret_cast<void**>(currentBlock) = currentBlock + blocksize;
+        currentBlock += blocksize;
+    }
+    *reinterpret_cast<void**>(currentBlock) = nullptr;
+    freeList = memoryPool;
+}
+```
+
+- **Memory Pool Structure**:  
+  The `initializeFreeList()` function divides the memory pool into 32-byte blocks. This is done by treating each block as a node in a singly linked list.
+
+- **`reinterpret_cast<void**>(currentBlock)`**:  
+  This line casts the `currentBlock` to a `void**` pointer, which allows us to store the address of the next block inside each block of memory. This is how we create the linked list structure.
+
+    - **How does `reinterpret_cast` work?**  
+      `reinterpret_cast` is a type of cast that allows you to treat one type of pointer as another. Here, it converts a `char*` (a pointer to a byte) into a `void**` (a pointer to a pointer). This allows us to manipulate the raw memory and create a linked list by storing the address of the next block in each block. Essentially, the memory block itself holds a pointer to the next free block.
+
+- **Linked List Setup**:  
+  After casting each block to `void**`, we assign the address of the next block (`currentBlock + blocksize`). The loop continues this way until all blocks are linked, and the last block points to `nullptr`, indicating the end of the list. Finally, the `freeList` pointer is set to the start of the memory pool, making the first block the head of the free list.
+
+---
+
+#### Allocation: `void* allocate()`
+The `allocate()` function returns a block of memory from the free list.
+
+```cpp
+void* allocate() {
+    if (freeList == nullptr) {
+        throw std::bad_alloc();
+    }
+    void* allocateBlock = freeList;
+    freeList = *reinterpret_cast<void**>(freeList);
+    return allocateBlock;
+}
+```
+
+- **Free List Check**:  
+  If `freeList == nullptr`, it means there are no more free blocks, so we throw a `std::bad_alloc` exception. This ensures that if the allocator runs out of memory, the program can handle it properly.
+
+- **Allocation Process**:  
+  If there are free blocks, we assign `freeList` to `allocateBlock` (this gives us the block to allocate). Next, we update the `freeList` to point to the next free block using the expression `*reinterpret_cast<void**>(freeList)`. This advances the free list to the next available block.
+
+  - **What’s happening here?**  
+    `reinterpret_cast<void**>(freeList)` is used again to treat the memory block as a pointer to the next free block. Essentially, we’re moving the head of the free list to the next block, making it the new free block for future allocations.
+
+---
+
+#### Deallocation: `void deallocate(void* block)`
+The `deallocate()` function returns a block of memory back to the free list.
+
+```cpp
+void deallocate(void* block) {
+    *reinterpret_cast<void**>(block) = freeList;
+    freeList = block;
+}
+```
+
+- **Deallocate Process**:  
+  When a block is deallocated, we place it back into the free list. This is done by making the deallocated block point to the current head of the free list (`freeList`), and then updating `freeList` to point to this block.
+
+  - **What’s happening with the `reinterpret_cast`?**  
+    `reinterpret_cast<void**>(block)` allows us to treat the deallocated block as a pointer, storing the current `freeList` inside it. By doing this, we add the block to the front of the list. This ensures that the most recently deallocated block is available for future allocations.
+
+- **Free List as a Stack**:  
+  The free list behaves like a stack in this case. When a block is deallocated, it is placed on top of the stack (i.e., added at the front of the list). When a new block is allocated, it is removed from the top of the stack.
+
+#### Destructor: `~MemoryAllocator()`
+```cpp
+~MemoryAllocator() {
+    ::operator delete(memoryPool);
+}
+```
+The destructor ensures that the memory allocated for the memory pool is properly freed when the `MemoryAllocator` object goes out of scope.
+
+- **Raw Memory Deallocation**:  
+  The `::operator delete` function is used to deallocate the memory that was allocated with `::operator new`. This ensures that the memory pool is properly cleaned up when the allocator is no longer needed.
+
+### Internal Mechanisms
+
+1. **Memory Pool**:  
+   The memory pool is a large, contiguous block of raw memory that is allocated during the initialization of the `MemoryAllocator` object. This pool is divided into smaller, fixed-size blocks (32 bytes each), and these blocks are managed using a linked list.
+
+2. **Free List**:  
+   The free list is a linked list where each node represents a block of memory. The free list is initially created by dividing the memory pool into blocks and linking them together. Blocks are allocated by removing them from the head of the list, and deallocated by adding them back to the front of the list.
+
+3. **`reinterpret_cast`**:  
+   This cast is critical for manipulating raw memory as pointers. It allows the allocator to treat blocks of memory as pointers to other blocks, enabling the linked list structure. By casting memory blocks to `void**`, the code can store the addresses of subsequent blocks within the memory pool itself.
+
+## Conclusion
+
+This custom memory allocator provides a simple but efficient way to manage memory using fixed-size blocks and a free list. The use of `reinterpret_cast` allows for the manipulation of raw memory, and the free list ensures that memory is allocated and deallocated quickly. This approach reduces the overhead associated with frequent dynamic memory allocations and is especially useful in systems with constrained resources or performance requirements.
 
 ---
 

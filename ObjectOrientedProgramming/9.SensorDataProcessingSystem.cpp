@@ -124,3 +124,39 @@ int main()
     
     return 0;
 }
+
+/*
+Here's a brief explanation of the code:
+
+1. Base Class: `Sensor`
+   - Abstract base class for all sensors
+   - Contains common properties: name, value, timestamp
+   - Has a pure virtual `read()` function, making it an abstract class
+
+2. Derived Classes: `TemperatureSensor` and `HumiditySensor`
+   - Inherit from `Sensor`
+   - Implement specific `read()` methods to simulate sensor readings
+   - Override `display()` to show sensor-specific information
+
+3. `SensorNetwork` Class:
+   - Manages a collection of sensors using `std::vector<Sensor*>`
+   - Provides methods to:
+     - Add sensors
+     - Read data from all sensors
+     - Display all readings
+     - Calculate average reading
+     - Find the sensor with the latest reading
+
+4. Main Function:
+   - Creates a `SensorNetwork` instance
+   - Adds different types of sensors
+   - Demonstrates the use of the `SensorNetwork` methods
+
+Key C++ Concepts Demonstrated:
+- Inheritance and polymorphism
+- Pure virtual functions
+- STL containers (vector)
+- STL algorithms (max_element)
+- Lambda functions
+- Range-based for loops
+*/

@@ -75,5 +75,66 @@ May be not specific to C++ but  : https://devblogs.microsoft.com/oldnewthing/ <b
 Something I need to delve into  : https://cpppatterns.com/ <br/>
 C++ Tips from                   : https://abseil.io/tips/ <br/>
 
+## Core language Features - To dive in
+As a Computer Science graduate looking to learn modern C++, here's a concise roadmap covering key concepts. I'll start with foundational topics and progress to more advanced ones.
 
+1. C++11/14/17/20 Core Language Features
+   - Auto keyword
+   - Lambda expressions
+   - Move semantics and rvalue references
+   - Smart pointers
+   - Variadic templates
+   - Constexpr and compile-time computation
+   - Concepts (C++20)
 
+2. Standard Template Library (STL)
+   - Containers (vector, map, unordered_map, etc.)
+   - Algorithms
+   - Iterators
+   - Function objects
+
+3. Object-Oriented Programming in C++
+   - Classes and inheritance
+   - Polymorphism
+   - RAII (Resource Acquisition Is Initialization)
+   - Rule of 0/3/5
+
+4. Memory Management
+   - Stack vs Heap
+   - Dynamic memory allocation
+   - Smart pointers (unique_ptr, shared_ptr, weak_ptr)
+
+5. Generic Programming
+   - Templates (function and class templates)
+   - Template specialization
+   - SFINAE (Substitution Failure Is Not An Error)
+
+6. Concurrency
+   - Threads and thread management
+   - Mutexes and locks
+   - Condition variables
+   - Futures and promises
+   - Atomic operations
+
+7. Modern C++ Best Practices
+   - SOLID principles
+   - Exception handling
+   - Type safety
+   - const-correctness
+
+8. C++20 Features
+   - Ranges
+   - Coroutines
+   - Modules
+   - Concepts
+
+9. Build Systems and Tools
+   - CMake
+   - Compiler options and flags
+   - Static analyzers (e.g., Clang-Tidy)
+   - Debuggers (e.g., GDB, LLDB)
+
+10. Performance Optimization
+    - Profiling
+    - Cache-friendly code
+    - Compiler optimizations

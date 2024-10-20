@@ -207,6 +207,111 @@ delete obj;
 2. Call Base's destructor
 ```
 
+### Virtual Destructors: Internal Mechanism
+
+#### **1. Virtual Destructors and the Vtable**
+When you mark a destructor as `virtual`, the compiler ensures that the destructor is added to the **vtable**. Here’s how it works step by step:
+
+- **Vtable Entry for Destructor**: The destructor, like any other virtual function, has an entry in the class’s vtable. If the destructor is virtual, the compiler generates an entry for it, which allows derived class destructors to override the base class destructor in the vtable.
+
+- **Deletion via Base Class Pointer**: When you delete an object through a pointer to the base class (`Base*`), the runtime looks at the vtable for the actual object type (determined by the object’s `vptr`), not the base class. It will invoke the most-derived class’s destructor, ensuring proper cleanup of the derived class’s resources.
+
+#### **2. Destructor Chaining**
+When an object of a derived class is deleted, the process of destructing the object proceeds as follows:
+1. The **most derived class’s destructor** (found via the vtable) is called first.
+2. After the derived class destructor runs, the destructor of its **base class** is automatically invoked to release resources associated with the base part of the object.
+3. This continues up the inheritance hierarchy until the destructor of the base-most class is called.
+
+#### **3. Compiler-Generated Code**
+Internally, the compiler generates the following code:
+- A **vtable** for each class with virtual functions. The destructor entry in the vtable will point to the **most derived destructor**.
+- A **vptr** for each object of the class, which is initialized to point to the correct vtable when the object is constructed.
+
+Let’s take an example to show this:
+
+#### **Example:**
+```cpp
+#include <iostream>
+
+class Base {
+public:
+    Base() { std::cout << "Base constructor\n"; }
+    virtual ~Base() { std::cout << "Base destructor\n"; }
+};
+
+class Derived : public Base {
+public:
+    Derived() { std::cout << "Derived constructor\n"; }
+    ~Derived() { std::cout << "Derived destructor\n"; }
+};
+
+int main() {
+    Base* obj = new Derived();  // Base pointer, Derived object
+    delete obj;  // Correctly calls Derived destructor, then Base destructor
+    return 0;
+}
+```
+
+#### **What Happens Internally:**
+1. **Object Creation**:
+   - When the `Derived` object is created (`Base* obj = new Derived();`), the constructor of `Derived` is called, which in turn calls the constructor of `Base`.
+   - The `vptr` for this object is set to point to the **vtable of the `Derived` class**.
+
+2. **Deleting via Base Pointer**:
+   - The `delete obj;` statement will call the **destructor**.
+   - Since the `vptr` of the object points to `Derived`'s vtable, the **Derived destructor** is called first (this is achieved via the vtable’s entry for the virtual destructor).
+   - After the `Derived` destructor completes, the **Base destructor** is called, completing the destruction process.
+
+#### **How the Compiler Sets Up the Vtable:**
+- For the `Base` class, the vtable will have entries for `Base`'s virtual destructor (pointing to `Base::~Base()`).
+- For the `Derived` class, the vtable will have entries for `Derived`'s destructor (overriding the entry for the destructor in `Base`'s vtable).
+
+#### **4. What Happens Without a Virtual Destructor**
+Let’s consider the case where you don’t declare the destructor as `virtual` in the base class:
+
+```cpp
+class Base {
+public:
+    ~Base() { std::cout << "Base destructor\n"; }
+};
+
+class Derived : public Base {
+public:
+    ~Derived() { std::cout << "Derived destructor\n"; }
+};
+
+int main() {
+    Base* obj = new Derived();  // Base pointer, Derived object
+    delete obj;  // Only calls Base destructor
+    return 0;
+}
+```
+
+In this case, when you delete `obj`, **only the `Base` class destructor is called** because there’s no entry in the vtable for the destructor. The `Derived` destructor is **not** called, leading to potential **resource leaks** (e.g., memory not being freed, file handles not closed) if the derived class manages any resources.
+
+### **Compiler Internals for Virtual Destructors:**
+- The compiler generates **vtable** entries for all virtual functions, including the virtual destructor.
+- When an object is deleted through a base class pointer, the runtime checks the **vptr** (which points to the correct vtable) and invokes the **most derived destructor** found in the vtable.
+- The **vptr** ensures that the actual object's destructor is called, even if the delete operation is performed via a base class pointer.
+
+### **5. Performance Implications**
+- **Vtable Lookup**: When deleting an object with a virtual destructor, there’s an additional level of indirection as the runtime needs to look up the destructor in the vtable. This introduces a small overhead compared to calling a non-virtual destructor.
+  
+- **Memory Overhead**: Each polymorphic class (one with virtual functions) contains an extra pointer (`vptr`) in each object. This pointer is typically 4 or 8 bytes depending on the system architecture.
+
+### **6. Real-world Scenarios Where Virtual Destructors are Essential**
+- **Abstract Base Classes**: When you use a base class to define an interface with virtual functions and intend to delete derived objects through base class pointers, a virtual destructor is crucial to avoid resource leaks.
+  
+- **Polymorphic Object Deletion**: In scenarios where you deal with heterogeneous collections (e.g., `std::vector<Base*>` containing derived class objects), a virtual destructor ensures correct cleanup for all object types.
+
+### **Summary**
+- **Vtable and Vptr**: The compiler sets up a vtable for classes with virtual functions (including destructors), and objects contain a vptr to their class’s vtable.
+- **Destructor Chaining**: The derived class destructor is invoked first, followed by base class destructors.
+- **Polymorphic Deletion**: Virtual destructors ensure that the most derived class's destructor is called when an object is deleted through a base class pointer, ensuring proper resource management.
+
+This detailed understanding of virtual destructors from a **compiler and runtime** perspective is crucial for understanding **polymorphism**, resource management, and efficient memory handling in C++.
+
+----------
 ## Conclusion
 
 Understanding the vtable mechanism is essential for leveraging the full power of C++’s object-oriented capabilities. It allows developers to implement polymorphism effectively, ensuring that the right functions are called at runtime while also promoting better resource management practices. By grasping these concepts, you can write more flexible, maintainable, and robust C++ applications.

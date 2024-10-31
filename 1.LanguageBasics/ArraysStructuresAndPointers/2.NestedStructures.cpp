@@ -12,7 +12,7 @@ struct Outer {
 int main()
 {
     Inner in = {100};
-    Outer out = {200, in};
+    Outer out = {200, &in};
 
     Outer* ptr_out = &out;
 

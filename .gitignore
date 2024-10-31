@@ -1,0 +1,25 @@
+# Ignore object files
+*.o
+*.obj
+
+# Ignore executables
+a.out
+*.out
+*.exe
+
+# Ignore debug files
+*.dSYM/
+
+# Ignore build directories
+build/
+bin/
+obj/
+
+# Ignore any other specific files or directories
+# Add your chosen files or directories here
+
+
+# Ignore any IDE specific files (optional)
+.vscode/
+*.swp
+

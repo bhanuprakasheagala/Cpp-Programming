@@ -44,6 +44,8 @@ int main()
     YourClass obj2(x);
     obj2.callLd();
 
+    std::cout << x << '\n'; //35
+
 
     return 0;
 }

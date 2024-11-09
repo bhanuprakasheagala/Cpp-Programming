@@ -7,6 +7,11 @@ struct Factorial2 {
     static int get_value() {
         return value;
     }
+
+    struct Inner {
+        static constexpr int value = N * Factorial2<N-1>::value;
+    };
+
 };
 
 template<>
@@ -34,6 +39,9 @@ int main()
     std::cout << "Factorial of 4: " << Factorial2<4>::value << '\n';
     int val = Factorial2<6>::get_value();
     std::cout << "Computed 6! by calling get_val in Factorial2: " << val << '\n';
+    
+    int innerFact = Factorial2<3>::Inner::value;
+    std::cout << "Getting 3! using Inner Fact computation inside Factorial2: " << innerFact << '\n';
     
     return 0;
 }

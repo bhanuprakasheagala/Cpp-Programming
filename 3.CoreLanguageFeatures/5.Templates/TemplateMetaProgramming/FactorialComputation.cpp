@@ -1,5 +1,19 @@
 #include <iostream>
 
+template <int N>
+struct Factorial2 {
+    using value_type = int;
+    static constexpr int value = N * Factorial2<N-1>::value;
+    static int get_value() {
+        return value;
+    }
+};
+
+template<>
+struct Factorial2<0> {
+    static constexpr int value = 1; // Base case : 0! = 1
+};
+
 //TMP for calculating factorial
 template <int N>
 struct Factorial {
@@ -15,7 +29,12 @@ struct Factorial<0> {
 int main()
 {
     std::cout << "Factorial of 5: " << Factorial<5>::value << '\n'; // 5! value computed at Compile time
-
+    Factorial2<4>::value_type x = 10;
+    std::cout << "Factorial2<4>::value_type x = " << x << '\n'; // x is valid and initialized
+    std::cout << "Factorial of 4: " << Factorial2<4>::value << '\n';
+    int val = Factorial2<6>::get_value();
+    std::cout << "Computed 6! by calling get_val in Factorial2: " << val << '\n';
+    
     return 0;
 }
 

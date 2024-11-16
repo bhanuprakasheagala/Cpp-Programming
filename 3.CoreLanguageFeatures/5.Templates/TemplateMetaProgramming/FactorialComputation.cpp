@@ -42,6 +42,10 @@ int main()
     
     int innerFact = Factorial2<3>::Inner::value;
     std::cout << "Getting 3! using Inner Fact computation inside Factorial2: " << innerFact << '\n';
+
+    // Accessing the specialized version
+    int splVal = Factorial2<0>::value;
+    std::cout << "Get the value from specialized version of Factorial2: " << splVal << '\n';
     
     return 0;
 }

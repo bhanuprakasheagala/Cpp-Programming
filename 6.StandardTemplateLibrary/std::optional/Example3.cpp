@@ -15,9 +15,11 @@ void printConfig(const Config& config) {
 int main()
 {
     Config config;
+
+    std::cout << "Empty Config:\n";
+    printConfig(config);
     
     config.username = "Alice";
-
     std::cout << "Initial Config:\n";
     printConfig(config);
 

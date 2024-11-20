@@ -51,6 +51,15 @@ bool isBoardFull(const Board& board) {
     });
 }
 
+// Function to play a move
+bool playMove(Board& board, int row, int col, char Player) {
+    if(row < 0 || row >= 3 || col < 0 || col >= 3 || board[row][col] != ' ') {
+        return false; // Invalid move
+    }
+    board[row][col] = Player;
+    return true;
+}
+
 int main()
 {
     Board board = {{{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}}; // Initialize the board
@@ -61,7 +70,7 @@ int main()
 
         // Check for a winner
         if(auto winner = checkWinner(board)) {
-            std::cout << "Player " << *winner << "wins!\n";
+            std::cout << "Player " << *winner << " wins!\n";
             break;
         }
 
@@ -70,6 +79,19 @@ int main()
             std::cout << "It's a draw\n";
             break;
         }
+
+        // Player's move
+        std::cout << "Player " << currentPlayer << ", enter your move (row and column): ";
+        int row, col;
+        std::cin >> row >> col;
+
+        if(playMove(board, row, col, currentPlayer)) {
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X'; // Switch player
+        }
+        else {
+            std::cout << "Invalid Move. Try again\n";
+        }
+
     }
     return 0;
 }

@@ -32,11 +32,44 @@ std::optional<char> checkWinner(const Board& board) {
     }
 
     // Check diagnols
-    
+    if(board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+        return board[0][0];
+    }
+    if(board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+        return board[0][2];
+    }
+
+    return std::nullopt; // No winner
+}
+
+// Function to check if the board is full
+bool isBoardFull(const Board& board) {
+    return std::all_of(board.begin(), board.end(), [](const auto& row) {
+        return std::all_of(row.begin(), row.end(), [](char cell) {
+            return cell != ' ';
+        });
+    });
 }
 
 int main()
 {
-    
+    Board board = {{{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}}; // Initialize the board
+    char currentPlayer = 'X'; // Start with player x
+
+    while(true) {
+        printBoard(board);
+
+        // Check for a winner
+        if(auto winner = checkWinner(board)) {
+            std::cout << "Player " << *winner << "wins!\n";
+            break;
+        }
+
+        // Check for a draw
+        if(isBoardFull(board)) {
+            std::cout << "It's a draw\n";
+            break;
+        }
+    }
     return 0;
 }

@@ -1,0 +1,1 @@
+This message is logged to both the console and the file

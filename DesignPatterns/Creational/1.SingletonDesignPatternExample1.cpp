@@ -40,11 +40,13 @@
 
 
 #include <iostream>
+#include <mutex>
 
 class Singleton {
 private:
     // Private static instance of the class
     static Singleton* instance;
+    static std::mutex mtx;
     
     // Private constructor to prevent direct instantiation
     Singleton() {
@@ -58,6 +60,7 @@ private:
 public:
     // Public static method to access the singleton instance
     static Singleton* getInstance() {
+        std::lock_guard<std::mutex> lock(mtx);  // Lock mutex to ensure thread safety
         if(instance == nullptr) {
             instance = new Singleton(); // Lazy instantiation
         }
@@ -74,6 +77,7 @@ public:
 
 // Initialize the static instance to nullptr
 Singleton* Singleton::instance = nullptr;
+std::mutex Singleton::mtx; // Initialize mutex
 
 int main() {
     

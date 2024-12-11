@@ -41,6 +41,8 @@
 
 #include <iostream>
 #include <mutex>
+#include <vector>
+#include <thread>
 
 class Singleton {
 private:
@@ -60,8 +62,8 @@ private:
 public:
     // Public static method to access the singleton instance
     static Singleton* getInstance() {
-        std::lock_guard<std::mutex> lock(mtx);  // Lock mutex to ensure thread safety
         if(instance == nullptr) {
+            std::lock_guard<std::mutex> lock(mtx);  // Lock mutex to ensure thread safety
             instance = new Singleton(); // Lazy instantiation
         }
         return instance;
@@ -69,7 +71,7 @@ public:
     
     // A method to demonstrate the usage of the singleton
     void showMessage() {
-        std::cout << "Hello from Singleton\n";
+        std::cout << "Hello from Singleton in thread  " << std::this_thread::get_id() << '\n';
     }
     
     ~Singleton(){}
@@ -78,6 +80,16 @@ public:
 // Initialize the static instance to nullptr
 Singleton* Singleton::instance = nullptr;
 std::mutex Singleton::mtx; // Initialize mutex
+
+void threadFunction(int threadNum) {
+    std::cout << "Thread " << threadNum << " trying to get Singleton instance\n";
+
+    // Get the Singleton instance
+    Singleton* singleton = Singleton::getInstance();
+
+    // Call a method on the Singleton
+    singleton->showMessage();
+}
 
 int main() {
     
@@ -91,6 +103,19 @@ int main() {
     
     // Check if both instances are the same
     std::cout << "Are both instances the same?\n" <<(singleton1 == singleton2 ? "Yes" : "No") << '\n';
+
+    const int NUM_OF_THREADS = 10;
+    std::vector<std::thread> threads;
+
+    // Create multiple threads
+    for(int i=0; i < NUM_OF_THREADS; ++i) {
+        threads.emplace_back(threadFunction, i);
+    }
+
+    // Wait for all threads to complete
+    for(auto& t : threads) {
+        t.join();
+    }
     
     return 0;
 }

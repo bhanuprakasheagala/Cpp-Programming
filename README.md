@@ -76,7 +76,6 @@ Something I need to delve into  : https://cpppatterns.com/ <br/>
 C++ Tips from                   : https://abseil.io/tips/ <br/>
 
 ## Core language Features - To dive in
-As a Computer Science graduate looking to learn modern C++, here's a concise roadmap covering key concepts. I'll start with foundational topics and progress to more advanced ones.
 
 1. C++11/14/17/20 Core Language Features
    - Auto keyword

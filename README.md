@@ -74,6 +74,16 @@ May be One or two Articles from : https://nimrod.blog/ <br/>
 May be not specific to C++ but  : https://devblogs.microsoft.com/oldnewthing/ <br/>
 Something I need to delve into  : https://cpppatterns.com/ <br/>
 C++ Tips from                   : https://abseil.io/tips/ <br/>
+ModernCpp Github resource       : https://github.com/federico-busato/Modern-CPP-Programming <br/>
+
+**Few other interesting and related resources:** <br/>
+https://blog.andreiavram.ro/cpp-custom-allocators-first-step/ <br/>
+https://www.rkaiser.de/wp-content/uploads/2021/03/embo2021-pmr-STL-for-Embedded-Applications-en.pdf <br/>
+https://github.com/mtrebi/memory-allocators <br/>
+https://maxnilz.com/ <br/>
+https://www.jonathanmueller.dev/talk/cache-friendly-cpp/ <br/>
+https://cpp-optimizations.netlify.app/ <br/>
+https://yyc.solvcon.net/en/latest/index.html <br/>
 
 ## Core language Features - To dive in
 

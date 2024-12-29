@@ -74,9 +74,22 @@ May be One or two Articles from : https://nimrod.blog/ <br/>
 May be not specific to C++ but  : https://devblogs.microsoft.com/oldnewthing/ <br/>
 Something I need to delve into  : https://cpppatterns.com/ <br/>
 C++ Tips from                   : https://abseil.io/tips/ <br/>
+ModernCpp Github resource       : https://github.com/federico-busato/Modern-CPP-Programming <br/>
+
+**Few other interesting and related resources:** <br/>
+https://blog.andreiavram.ro/cpp-custom-allocators-first-step/ <br/>
+https://www.rkaiser.de/wp-content/uploads/2021/03/embo2021-pmr-STL-for-Embedded-Applications-en.pdf <br/>
+https://github.com/mtrebi/memory-allocators <br/>
+https://maxnilz.com/ <br/>
+https://www.jonathanmueller.dev/talk/cache-friendly-cpp/ <br/>
+https://cpp-optimizations.netlify.app/ <br/>
+https://yyc.solvcon.net/en/latest/index.html <br/>
+https://learn.microsoft.com/en-us/cpp/cpp/object-lifetime-and-resource-management-modern-cpp?view=msvc-170 <br/>
+https://isocpp.org/wiki/faq/strange-inheritance <br/>
+https://github.com/methylDragon/coding-notes/tree/master/C%2B%2B <br/>
+https://www.rkaiser.de/wp-content/uploads/2021/03/embo2021-pmr-STL-for-Embedded-Applications-en.pdf <br/>
 
 ## Core language Features - To dive in
-As a Computer Science graduate looking to learn modern C++, here's a concise roadmap covering key concepts. I'll start with foundational topics and progress to more advanced ones.
 
 1. C++11/14/17/20 Core Language Features
    - Auto keyword

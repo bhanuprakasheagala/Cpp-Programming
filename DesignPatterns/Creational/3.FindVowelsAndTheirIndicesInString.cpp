@@ -6,10 +6,13 @@ Write a Singleton class to find vowels from a string and their indices
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <mutex>
 
 class VowelFinder {
 private:
     static VowelFinder* instance;
+    static std::mutex mtx;
+    
     VowelFinder() {
         std::cout << "Private constructor to prevent instantiation\n";
     }
@@ -17,6 +20,7 @@ private:
 public:
     static VowelFinder* getInstance() {
         if(instance == nullptr) {
+            std::lock_guard<std::mutex> lock(mtx);
             instance = new VowelFinder();
         }
         
@@ -46,16 +50,16 @@ public:
 };
 
 VowelFinder* VowelFinder::instance = nullptr;
+std::mutex VowelFinder::mtx;
 
 int main() {
-    
     std::string str;
+    
     std::cout << "Enter a string:\n";
     std::getline(std::cin, str);
     
     VowelFinder* vf = VowelFinder::getInstance();
     vf->findVowelsAndIndexes(str);
-    
     
     return 0;
 }

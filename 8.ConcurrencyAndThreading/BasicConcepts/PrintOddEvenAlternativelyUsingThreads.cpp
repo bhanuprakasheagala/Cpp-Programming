@@ -45,7 +45,7 @@ int main() {
     std::thread even_thread(print_even);
     std::thread odd_thread(print_odd);
     
-    // Start the threads
+    
     odd_thread.join();
     even_thread.join();
     

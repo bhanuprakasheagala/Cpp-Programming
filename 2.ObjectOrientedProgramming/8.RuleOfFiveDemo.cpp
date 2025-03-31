@@ -34,7 +34,7 @@ class MyClass {
         }
 
         // Move constructor
-        MyClass(MyClass& other) noexcept {
+        MyClass(MyClass&& other) noexcept {
             data = other.data;
             other.data = nullptr;
             std::cout << "Move constructor\n";
@@ -61,6 +61,8 @@ int main()
 
     MyClass obj3(30);
     obj3 = obj2;            // Calls Copy assignment operator
+
+    MyClass obj4(obj3);    // Calls Copy constructor
 
     return 0;
 }

@@ -139,7 +139,8 @@ class Vector {
 
 int main()
 {
-    // Test the Vector class
+    
+    // 1. Create a vector of integers with Default Constructor. Here it will call the constructor with initSize = 0
     Vector<int> myVect;
     myVect.push_back(56);
     myVect.push_back(334);
@@ -158,5 +159,116 @@ int main()
         std::cout << "No\n";
     }
 
+    // 2. Create a vector of doubles with Parameterized Constructor
+    Vector<double> myVect2(5); // Initial size of 5
+    for(int i=0; i<5; i++) {
+        myVect2[i] = i * 1.1; // Assign values to the elements
+    }
+    myVect2.myDisplay();
+    std::cout << "Size: " << myVect2.size() << '\n';
+    std::cout << "Capacity: " << myVect2.capacity() << '\n';
+    std::cout << "Resizing the vector to size 8\n";
+    myVect2.resize(8); // Resize to 8
+    myVect2.myDisplay();
+    std::cout << "Capacity after resizing: " << myVect2.capacity() << '\n';
+    std::cout << "Reserving capacity for 20 elements\n";
+    myVect2.reserve(20); // Reserve capacity for 20 elements
+    std::cout << "Capacity after reserving: " << myVect2.capacity() << '\n';
+
+    // 3. Create a vector of strings with Parameterized Constructor
+    Vector<std::string> myVect3(3); // Initial size of 3
+    myVect3[0] = "Hello";
+    myVect3[1] = "World";
+    myVect3[2] = "C++23";
+    myVect3.myDisplay();
+    std::cout << "Adding another string to the vector\n";
+    myVect3.push_back("Programming");
+    myVect3.myDisplay();
+    std::cout << "Size: " << myVect3.size() << '\n';
+    std::cout << "Capacity: " << myVect3.capacity() << '\n';
+    std::cout << "Last element: " << myVect3.back() << '\n';
+
+    // 4. Using Copy Constructor
+    Vector<std::string> myVect4 = myVect3; // Calls copy constructor
+    std::cout << "Contents of copied vector:\n";
+    myVect4.myDisplay();
+    std::cout << "Size of copied vector: " << myVect4.size() << '\n';
+    std::cout << "Capacity of copied vector: " << myVect4.capacity() << '\n';
+    std::cout << "Modifying the original vector\n";
+    myVect3.push_back("NewString");
+    std::cout << "Original vector after modification:\n";
+    myVect3.myDisplay();
+    std::cout << "Copied vector remains unchanged:\n";
+    myVect4.myDisplay();
+
+    // 5. Using Copy Assignment Operator
+    Vector<std::string> myVect5;
+    myVect5 = myVect3; // Calls copy assignment operator
+    std::cout << "Contents of assigned vector:\n";
+    myVect5.myDisplay();
+    std::cout << "Size of assigned vector: " << myVect5.size() << '\n';
+    std::cout << "Capacity of assigned vector: " << myVect5.capacity() << '\n';
+    std::cout << "Modifying the original vector again\n";
+    myVect3.push_back("AnotherString");
+    std::cout << "Original vector after modification:\n";
+    myVect3.myDisplay();
+    std::cout << "Assigned vector remains unchanged:\n";
+    myVect5.myDisplay();
+
     return 0;
 }
+
+/*
+Output:
+
+Vector elements: 
+56 334 132 
+The first element 56
+The last element 132
+Pop the last element!!
+Vector elements: 
+56 334 
+Is vector empty? No
+Vector elements: 
+0 1.1 2.2 3.3 4.4 
+Size: 5
+Capacity: 21
+Resizing the vector to size 8
+Vector elements: 
+0 1.1 2.2 3.3 4.4 0 0 0 
+Capacity after resizing: 21
+Reserving capacity for 20 elements
+Capacity after reserving: 20
+Vector elements: 
+Hello World C++23 
+Adding another string to the vector
+Vector elements: 
+Hello World C++23 Programming 
+Size: 4
+Capacity: 19
+Last element: Programming
+Contents of copied vector:
+Vector elements: 
+Hello World C++23 Programming 
+Size of copied vector: 4
+Capacity of copied vector: 19
+Modifying the original vector
+Original vector after modification:
+Vector elements: 
+Hello World C++23 Programming NewString 
+Copied vector remains unchanged:
+Vector elements: 
+Hello World C++23 Programming 
+Contents of assigned vector:
+Vector elements: 
+Hello World C++23 Programming NewString 
+Size of assigned vector: 5
+Capacity of assigned vector: 19
+Modifying the original vector again
+Original vector after modification:
+Vector elements: 
+Hello World C++23 Programming NewString AnotherString 
+Assigned vector remains unchanged:
+Vector elements: 
+Hello World C++23 Programming NewString 
+*/

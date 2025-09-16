@@ -46,7 +46,7 @@ void operator delete(void* ptr) noexcept {
 
 // Function to display the contents of raw memory in a readable format
 void showMemory(unsigned char* buffer, std::size_t buffer_size, const char* headline = "") {
-    if(headline != "" ){
+    if(strcmp(headline, "") != 0) {
         std::cout << headline << '\n'; // Print the headline if provided
     }
     // Print the address of the buffer and its size
@@ -128,3 +128,52 @@ int main()
     
     return 0; // Return 0 to indicate successful completion
 }
+
+/*
+Sample Output:
+#new: 0 #delete: 0 #bytes: 0
+
+After calling one explicit new and delete operators:
+Summary for each call of new/delete: 
+#new: 1 #delete: 1 #bytes: 4
+Resetting counter to all zeros...
+
+For STL containers, new and delete are called implicitly..
+Summary for each call of new/delete: 
+#new: 1 #delete: 0 #bytes: 4
+#new: 2 #delete: 1 #bytes: 12
+#new: 3 #delete: 2 #bytes: 28
+#new: 3 #delete: 2 #bytes: 28
+#new: 4 #delete: 3 #bytes: 60
+#new: 4 #delete: 3 #bytes: 60
+#new: 4 #delete: 3 #bytes: 60
+#new: 4 #delete: 3 #bytes: 60
+#new: 5 #delete: 4 #bytes: 124
+#new: 5 #delete: 4 #bytes: 124
+
+
+**************Concept of Displaying Raw Memory**************
+-----MEMORY DUMP----
+&buffer=0x16f49ae36 50 bytes
+&= 0 asc: A.C.E.G.I.
+&= a asc: K.M.O.Q.S.
+&=14 asc: U.W.Y.Hell
+&=1e asc: o, Memory!
+&=28 asc: !.Q.S.U.W.
+*/
+
+/*
+Code Explanation:
+1. Global Counters: The code defines global counters to track the number of calls to the new and delete operators, as well as the total memory allocated.
+2. Custom New/Delete Operators: The new operator is overloaded to increment the new counter and track allocated memory. The delete operator is overloaded to increment the delete counter.
+3. Reset and Display Functions: Functions are provided to reset the counters and display a summary of allocations and deallocations.
+4. Memory Display Function: The showMemory function displays the contents of a memory buffer in a readable format, showing both hexadecimal addresses and ASCII representations.
+5. Main Function: The main function demonstrates the usage of the custom memory tracking by performing explicit allocations and deallocations, as well as using STL containers which implicitly call new and delete. It also showcases the memory display functionality.
+
+showMemory Function Explanation:
+1. Parameters: The function takes a pointer to an unsigned char buffer, the size of the buffer, and an optional headline string.
+2. Headline Display: If a headline is provided, it is printed at the beginning.
+3. Address and Size: The function prints the address of the buffer and its size in bytes.
+4. Memory Dump: The function iterates through the buffer in chunks of 10 bytes, printing the address of each chunk and its ASCII representation. Non-printable characters are replaced with a dot (.) for readability.
+5. Formatting: The output is formatted to ensure clarity, with hexadecimal addresses and aligned ASCII output.
+*/

@@ -52,3 +52,11 @@ Unordered Map (no specific order):
 3 => Three
 1 => One
 */
+
+
+// How Unordered Map different from Map in different aspects:
+// 1. **Underlying Data Structure**: `map` is implemented as a balanced binary search tree (e.g., Red-Black Tree), while `unordered_map` is implemented as a hash table.
+// 2. **Order of Elements**: `map` maintains elements in sorted order based on the keys, while `unordered_map` does not maintain any specific order of elements.
+// 3. **Time Complexity**: `map` has O(log n) time complexity for insertion, search, and deletion due to its tree structure, while `unordered_map` has O(1) average time complexity for these operations due to its hash table implementation, but can degrade to O(n) in the worst case due to collisions.
+// 4. **Memory Usage**: `unordered_map` may use more memory than `map` due to the need for a hash table and handling collisions, while `map` uses a more compact tree structure.
+// 5. **Use Cases**: `map` is suitable when you need ordered data or require range queries, while `unordered_map` is ideal when you prioritize faster lookups and do not need the elements to be ordered.
